@@ -1,7 +1,7 @@
 import React from "react";
 import ComponentABout from "./ComponentABout";
 
-export const About = () => {
+const About = () => {
   return (
     <>
       <ComponentABout />
