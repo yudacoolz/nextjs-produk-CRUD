@@ -35,9 +35,10 @@ import { useEffect, useState } from "react";
 // import axios from "axios";
 
 export const useAuth = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    localStorage.getItem("token") ? true : false
-  );
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // const [isAuthenticated, setIsAuthenticated] = useState(
+  //   localStorage.getItem("token") ? true : false
+  // );
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -52,7 +53,11 @@ export const useAuth = () => {
         // } catch {
         //   setIsAuthenticated(false);
         // }
-        setIsAuthenticated(true);
+
+        // setIsAuthenticated(true);
+
+        const token = localStorage.getItem("token");
+        setIsAuthenticated(!!token);
       } else {
         setIsAuthenticated(false);
       }

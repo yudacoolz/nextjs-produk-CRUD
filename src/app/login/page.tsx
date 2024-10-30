@@ -24,7 +24,9 @@ const LoginPage = () => {
       );
       console.log(data);
 
-      localStorage.setItem("token", data.token);
+      if (typeof window !== "undefined") {
+        localStorage.setItem("token", data.token);
+      }
       router.push("/product");
     } catch (error) {
       console.log("error login : ", error);
