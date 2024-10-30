@@ -38,7 +38,7 @@
 
 // /api/auth/route.ts
 import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcryptjs";
+// import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
 

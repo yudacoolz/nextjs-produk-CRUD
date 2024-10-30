@@ -32,7 +32,7 @@
 "use client";
 // hooks/useAuth.ts
 import { useEffect, useState } from "react";
-import axios from "axios";
+// import axios from "axios";
 
 export const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(
@@ -41,7 +41,7 @@ export const useAuth = () => {
 
   useEffect(() => {
     const checkAuth = async () => {
-      const token = localStorage.getItem("token");
+      // const token = localStorage.getItem("token");
       if (isAuthenticated) {
         // try {
         //   const { data } = await axios.get("/api/auth", {

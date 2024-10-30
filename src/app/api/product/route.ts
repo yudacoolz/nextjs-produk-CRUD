@@ -22,13 +22,6 @@ import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
-interface ProductData {
-  title: string;
-  content: string;
-  published: boolean;
-  authorId: number;
-}
-
 // export async function fetchProduct() {
 //   return await prisma.post.findMany({
 //     orderBy: [

@@ -1,6 +1,5 @@
 "use client";
 
-import type { Metadata } from "next";
 import { useDarkTheme } from "@/contexts/DarkThemeContext";
 
 export default function LayoutAbout({
@@ -8,10 +7,6 @@ export default function LayoutAbout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  //   const { darkTheme, setDarkTheme } = useDarkTheme();
-  //   const handleDarkButton = () => {
-  //     setDarkTheme(!darkTheme);
-  //   };
   const { isDark, setIsDark } = useDarkTheme(); // Using isDark and setIsDark consistently
 
   const handleDarkButton = () => {

@@ -29,8 +29,6 @@ export const Modal = ({
   onAction,
   children,
 }: ModalProps) => {
-  if (!isOpen) return null;
-
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [published, setPublished] = useState<boolean>(false);
@@ -47,6 +45,8 @@ export const Modal = ({
       setTitle(deleteData.title || "");
     }
   }, [updateData, deleteData]);
+
+  if (!isOpen) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

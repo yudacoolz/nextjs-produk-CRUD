@@ -2,7 +2,7 @@ import React from "react";
 import FetchProductComponent from "./FetchProductComponent";
 // import { fetchProduct } from "../api/product/route";
 import { CreateProduct } from "./CreateProduct";
-import axios from "axios";
+// import axios from "axios";
 
 export type DateOptions = {
   year: "numeric";
@@ -17,12 +17,12 @@ export const Product = async () => {
 
   // console.log("data post : ", posts);
 
-  const dateOptions: DateOptions = {
-    // Options for formatting dates.
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  };
+  // const dateOptions: DateOptions = {
+  //   // Options for formatting dates.
+  //   year: "numeric",
+  //   month: "long",
+  //   day: "numeric",
+  // };
 
   return (
     <div>

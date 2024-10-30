@@ -4,7 +4,6 @@ import React from "react";
 // import FetchProductComponent from "./FetchProductComponent";
 import Modal from "@/components/Modal";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { useProductContext } from "@/contexts/ProductContext";
 
 interface Author {
@@ -28,10 +27,10 @@ interface DateOptions extends Intl.DateTimeFormatOptions {
   day: "numeric";
 }
 
-interface FetchProductComponentProps {
-  posts: Post[];
-  dateOptions: DateOptions;
-}
+// interface FetchProductComponentProps {
+//   posts: Post[];
+//   dateOptions: DateOptions;
+// }
 // export const FetchProductComponent = ({
 //   posts,
 //   dateOptions,
