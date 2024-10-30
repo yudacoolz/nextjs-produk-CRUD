@@ -35,7 +35,9 @@ import { useEffect, useState } from "react";
 // import axios from "axios";
 
 export const useAuth = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | undefined>(
+    undefined
+  );
   // const [isAuthenticated, setIsAuthenticated] = useState(
   //   localStorage.getItem("token") ? true : false
   // );
