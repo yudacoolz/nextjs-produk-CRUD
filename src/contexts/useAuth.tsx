@@ -35,8 +35,8 @@ import { useEffect, useState } from "react";
 // import axios from "axios";
 
 export const useAuth = () => {
-  const [isToken, setIsToken] = useState<string | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  // const [isToken, setIsToken] = useState<string | null>(null);
+  // const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   // const [isAuthenticated, setIsAuthenticated] = useState(
   //   localStorage.getItem("token") ? true : false
   // );
@@ -68,19 +68,26 @@ export const useAuth = () => {
   //   }
   // }, []);
 
-  useEffect(() => {
-    const savedValue = window.localStorage.getItem("token");
-    setIsToken(savedValue ? savedValue : "");
-  }, []);
+  const initialState = () => {
+    if (typeof window !== "undefined") {
+      return window.localStorage.getItem("token") ? true : false;
+    }
+    return false;
+  };
+  const [isAuthenticated, setIsAuthenticated] = useState(initialState());
 
   useEffect(() => {
-    if (isToken) {
-      setIsAuthenticated(true);
-      // if (typeof isToken === "string") {
-      //   window.localStorage.setItem("isAuth", "true");
-      // }
+    const checkAuth = async () => {
+      if (isAuthenticated) {
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+      }
+    };
+    if (typeof window !== "undefined") {
+      checkAuth();
     }
-  }, [isToken]);
+  }, []);
 
   return isAuthenticated;
 };
