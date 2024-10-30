@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation"; // or "next/router" if you're on Ne
 import axios from "axios";
 import { useAuth } from "@/contexts/useAuth";
 
-export const LoginPage = () => {
+const LoginPage = () => {
   const isAuthenticated = useAuth();
   console.log("isAuthenticated", isAuthenticated);
 

@@ -10,7 +10,7 @@ export type DateOptions = {
   day: "numeric";
 };
 
-export const Product = async () => {
+const Product = async () => {
   // const posts = await fetchProduct();
 
   // const posts = await axios.get("api/product");
