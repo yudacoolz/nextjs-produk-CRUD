@@ -21,11 +21,11 @@ interface Post {
   author: Author;
 }
 
-interface DateOptions extends Intl.DateTimeFormatOptions {
-  year: "numeric";
-  month: "long";
-  day: "numeric";
-}
+// interface DateOptions extends Intl.DateTimeFormatOptions {
+//   year: "numeric";
+//   month: "long";
+//   day: "numeric";
+// }
 
 // interface FetchProductComponentProps {
 //   posts: Post[];
