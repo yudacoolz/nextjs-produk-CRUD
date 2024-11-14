@@ -8,7 +8,7 @@ import { useAuth } from "@/contexts/useAuth";
 
 const LoginPage = () => {
   const isAuthenticated = useAuth();
-  console.log("isAuthenticated", isAuthenticated);
+  console.log("isAuthenticated dari login page", isAuthenticated);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,12 +22,17 @@ const LoginPage = () => {
         { email, password },
         { headers: { "Content-Type": "application/json" } }
       );
-      console.log(data);
+      console.log("data user", data);
 
-      if (typeof window !== "undefined") {
-        localStorage.setItem("token", data.token);
+      if (data.token) {
+        localStorage.setItem("token", data.token); // Store token
+        router.push("/dashboard/product"); // Redirect to protected route
       }
-      router.push("/product");
+
+      // if (typeof window !== "undefined") {
+      //   localStorage.setItem("token", data.token);
+      // }
+      // router.push("/dashboard/product");
     } catch (error) {
       console.log("error login : ", error);
       alert("gagal login");

@@ -30,6 +30,7 @@ model Post {
   updatedAt DateTime @updatedAt
   authorId  Int
   author    User     @relation(fields: [authorId], references: [id])
+  ImageUrl  String[] // array of images url
 
 
    @@map(name :"posts")

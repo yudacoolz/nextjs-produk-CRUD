@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useProductContext } from "@/contexts/ProductContext";
 
 interface ProductData {
   id: number;
@@ -8,6 +9,7 @@ interface ProductData {
   content: string | null;
   published: boolean;
   authorId: number;
+  ImageUrl: string[];
 }
 
 interface ModalProps {
@@ -29,11 +31,16 @@ export const Modal = ({
   onAction,
   children,
 }: ModalProps) => {
+  const { product } = useProductContext();
+
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [published, setPublished] = useState<boolean>(false);
   const [authorId, setAuthorId] = useState<number | "">("");
-  console.log("title udh masuk ? : ", title);
+  const [images, setImages] = useState<string[] | null>(null);
+  const [closeModal, setCloseModal] = useState<boolean>(true);
+
+  console.log("updateData ? : ", updateData);
 
   useEffect(() => {
     if (updateData) {
@@ -41,6 +48,7 @@ export const Modal = ({
       setContent(updateData.content || "");
       setPublished(updateData.published || false);
       setAuthorId(updateData.authorId || "");
+      setImages(updateData.ImageUrl || null);
     } else if (deleteData) {
       setTitle(deleteData.title || "");
     }
@@ -48,21 +56,56 @@ export const Modal = ({
 
   if (!isOpen) return null;
 
+  const handleImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const filesArray = Array.from(e.target.files);
+      console.log("Images selected:", filesArray);
+
+      // Convert new images to base64
+      const newBase64Images = await Promise.all(
+        filesArray.map((image) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(image);
+          return new Promise<string>((resolve, reject) => {
+            reader.onloadend = () => {
+              if (reader.result !== null) {
+                resolve((reader.result as string).split(",")[1]);
+              } else {
+                reject(new Error("Failed to read image"));
+              }
+            };
+          });
+        })
+      );
+
+      // Store newly selected images in newImages state
+      // setNewImages((prevNewImages) => [...prevNewImages, ...newBase64Images]);
+      setImages((prevImages) =>
+        prevImages ? [...prevImages, ...newBase64Images] : newBase64Images
+      );
+      console.log("FInal Updated images:", images); // Log updated images here
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setCloseModal(true);
 
-    if (title || content || authorId || published) {
+    if (title || content || authorId || published || images) {
       try {
-        const res = await axios.patch(`api/product/${updateData?.id}`, {
+        const res = await axios.patch(`/api/product/${updateData?.id}`, {
           id: updateData?.id,
           title,
           content,
-          authorId,
           published,
+          authorId,
+          ImageUrl: images,
         });
         console.log("hasil update", res);
-        alert("berhasil di update");
-        onClose();
+        if (closeModal) {
+          alert("berhasil di update");
+          onClose();
+        }
         onAction();
         return res;
       } catch (error) {
@@ -75,7 +118,7 @@ export const Modal = ({
   const handleDelete = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.delete(`api/product/${deleteData?.id}`, {
+      await axios.delete(`/api/product/${deleteData?.id}`, {
         data: { id: deleteData?.id }, // Sending the ID in the request body
       });
       onClose();
@@ -84,6 +127,14 @@ export const Modal = ({
       console.log("error delete dr modal", err);
       alert("error delete dr modal");
     }
+  };
+
+  const handleDeleteImage = (index: number) => {
+    // kenapa butuh 2 ? krn yang kita butuhin itu adalah index item nya. bukan current item nya
+    setImages(
+      (prevImages) => prevImages?.filter((item, i) => i !== index) || null
+    );
+    setCloseModal(false);
   };
 
   return (
@@ -95,7 +146,7 @@ export const Modal = ({
       />
 
       {/* Modal Content */}
-      <div className="relative bg-white rounded-lg w-full max-w-md mx-4 z-50">
+      <div className="relative bg-white rounded-lg w-full max-w-2xl mx-4 z-50">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b">
           <h2 className="text-xl font-semibold">{Judul}</h2>
@@ -165,6 +216,58 @@ export const Modal = ({
                     onChange={(e) => setAuthorId(Number(e.target.value))}
                     className="text-black"
                   />
+                </div>
+
+                <div className="flex gap-2">
+                  <label htmlFor="image">Image</label>
+                  <input
+                    type="file"
+                    name="image"
+                    multiple
+                    // accept=".jpg,.jpeg,.png"
+                    accept=".jpeg"
+                    onChange={handleImage}
+                    className="text-black"
+                  />
+                </div>
+
+                <div className="mt-5">
+                  {product.length > 0 ? (
+                    // Find the product with the matching `updateData.id`
+                    (() => {
+                      const selectedProduct = product.find(
+                        (item) => item.id === updateData.id
+                      );
+                      return selectedProduct ? (
+                        <div
+                          key={selectedProduct.id}
+                          className="flex gap-2 mx-2 flex-wrap"
+                        >
+                          {selectedProduct.ImageUrl.map((image, i) => (
+                            <div key={i} className="relative w-32 h-32">
+                              {/* Delete Button */}
+                              <button
+                                onClick={() => handleDeleteImage(i)}
+                                className="absolute top-1 right-1 bg-red-600 text-white p-[-10px] w-6 h-6 rounded-full z-10 hover:bg-red-700"
+                              >
+                                &times;
+                              </button>
+                              {/* Image */}
+                              <img
+                                src={`data:image/jpeg;base64,${image}`}
+                                alt={`Image Produk ${i + 1}`}
+                                className="object-cover rounded-sm w-full h-full border-2"
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <p>No Images</p>
+                      );
+                    })()
+                  ) : (
+                    <p>Loading...</p>
+                  )}
                 </div>
 
                 <button

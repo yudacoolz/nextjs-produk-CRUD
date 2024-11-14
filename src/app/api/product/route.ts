@@ -17,7 +17,7 @@
 // }
 
 // route.ts
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
@@ -52,12 +52,63 @@ const prisma = new PrismaClient();
 // src/app/api/product/route.ts
 
 // GET request handler
-export async function GET() {
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const query = searchParams.get("query");
+  const publishedParams = searchParams.get("published");
+  const published =
+    publishedParams === "true"
+      ? true
+      : publishedParams === "false"
+      ? false
+      : undefined;
+
+  const author = searchParams.get("author");
+  const authorId = author ? parseInt(author) : undefined;
+
+  // PAGINATION
+  const page = parseInt(searchParams.get("page") || "1", 10); // Current page
+  // const limit = parseInt(searchParams.get("limit") || "10", 10); // Items per page
+  const limit = 4;
+  const skip = (page - 1) * limit; // Offset for pagination
+
+  const where: Prisma.PostWhereInput = {
+    OR:
+      // jika ada query dari search atau filter
+      query
+        ? [
+            { title: { contains: query, mode: "insensitive" } },
+            { content: { contains: query, mode: "insensitive" } },
+          ]
+        : undefined,
+    // published: published || undefined,
+    // ...(published !== undefined && { published }),
+    published: published,
+
+    authorId: authorId || undefined,
+  };
+
+  // Log the `where` filter to inspect the query condition
+  console.log("Filter applied in 'where' condition:", where);
+
+  // Fetch the total count of items
+  const totalCount = await prisma.post.count({ where });
+
+  // Log the `totalCount` to check the total number of matched posts
+  console.log("Total count of posts matching filter:", totalCount);
   const products = await prisma.post.findMany({
+    skip,
+    take: limit,
+    where,
+
+    // original nya cuma ini kalau tanpa search
     orderBy: { updatedAt: "desc" },
-    include: { author: true }, // Include author data in the response
+    include: { author: true }, // Include author data // Include author data in the response
   });
-  return NextResponse.json(products);
+  return NextResponse.json({
+    products,
+    totalCount,
+  });
 }
 
 // export async function POST(request: Request) {
@@ -85,6 +136,7 @@ export async function POST(request: Request) {
         content: data.content,
         published: data.published,
         authorId: data.authorId,
+        ImageUrl: data.ImageUrl,
       },
     });
 
