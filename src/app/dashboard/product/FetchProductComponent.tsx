@@ -83,8 +83,8 @@ const FetchProductComponent = () => {
   };
 
   return (
-    <div className="mb-5">
-      <Suspense>
+    <Suspense fallback={<p>Loading product data...</p>}>
+      <div className="mb-5">
         <SearchFilter placeholder={"Search Produk"} isDashboard />
 
         <div className="grid grid-cols-4 gap-2">
@@ -173,8 +173,8 @@ const FetchProductComponent = () => {
           author={author}
           totalPages={totalPages}
         />
-      </Suspense>
-    </div>
+      </div>
+    </Suspense>
   );
 };
 
