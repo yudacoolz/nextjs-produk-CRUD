@@ -17,10 +17,11 @@
 import React from "react";
 import FetchProductComponent from "./FetchProductComponent";
 import { CreateProduct } from "./CreateProduct";
+import { Suspense } from "react";
 
 const ProductComponent = () => {
   return (
-    <>
+    <Suspense fallback={<p>Loading...</p>}>
       <div>
         <h1>Product</h1>
 
@@ -31,7 +32,7 @@ const ProductComponent = () => {
         {/* CONTENT */}
         <FetchProductComponent />
       </div>
-    </>
+    </Suspense>
   );
 };
 
