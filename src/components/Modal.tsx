@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useProductContext } from "@/contexts/ProductContext";
+// import { useProductContext } from "@/contexts/ProductContext";
 
 interface ProductData {
   id: number;
