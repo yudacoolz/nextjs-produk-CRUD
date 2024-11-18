@@ -27,7 +27,8 @@ interface Post {
 }
 
 const FetchProductClient = () => {
-  const { product, fetchFilteredProduct, totalPages } = useProductContext();
+  const { product, fetchFilteredProduct, fetchProduct, totalPages } =
+    useProductContext();
 
   const [isModalImageOpen, setIsModalImageOpen] = useState(false);
 
@@ -42,17 +43,24 @@ const FetchProductClient = () => {
 
   useEffect(() => {
     // Call fetchFilteredProduct if there is a search term; otherwise, call fetchProduct
-    // if (searchTerm) {
-    //   fetchFilteredProduct(searchTerm, published, author, page);
-    // } else {
-    //   fetchProduct();
-    // }
+
     setLoading(true);
     const checkResult = () => {
-      fetchFilteredProduct(searchTerm, published, author, page);
+      if (searchTerm) {
+        fetchFilteredProduct(searchTerm, published, author, page);
+      } else {
+        fetchProduct("", "true", "", page, false);
+      }
       setLoading(false);
     };
     checkResult();
+
+    // setLoading(true);
+    // const checkResult = () => {
+    //   fetchFilteredProduct(searchTerm, published, author, page);
+    //   setLoading(false);
+    // };
+    // checkResult();
   }, [searchTerm]);
 
   console.log("data post:", product);

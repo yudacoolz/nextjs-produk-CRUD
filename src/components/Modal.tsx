@@ -38,6 +38,8 @@ export const Modal = ({
   const [published, setPublished] = useState<boolean>(false);
   const [authorId, setAuthorId] = useState<number | "">("");
   const [images, setImages] = useState<string[] | null>(null);
+  // const [tempImages, setTempImages] = useState<string[] | null>(null);
+
   const [closeModal, setCloseModal] = useState<boolean>(true);
 
   console.log("updateData ? : ", updateData);
@@ -49,10 +51,11 @@ export const Modal = ({
       setPublished(updateData.published || false);
       setAuthorId(updateData.authorId || "");
       setImages(updateData.ImageUrl || null);
+      // setTempImages(updateData.ImageUrl || null);
     } else if (deleteData) {
       setTitle(deleteData.title || "");
     }
-  }, [updateData, deleteData]);
+  }, [updateData, deleteData, isOpen]);
 
   if (!isOpen) return null;
 
@@ -90,6 +93,8 @@ export const Modal = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setCloseModal(true);
+
+    // setImages(tempImages);
 
     if (title || content || authorId || published || images) {
       try {
@@ -130,11 +135,14 @@ export const Modal = ({
   };
 
   const handleDeleteImage = (index: number) => {
-    // kenapa butuh 2 ? krn yang kita butuhin itu adalah index item nya. bukan current item nya
-    setImages(
-      (prevImages) => prevImages?.filter((item, i) => i !== index) || null
-    );
-    setCloseModal(false);
+    setImages((prevImages) => {
+      if (!prevImages) return null; // Ensure images exist
+      // kenapa butuh 2 ? krn yang kita butuhin itu adalah index item nya. bukan current item nya
+      const updatedImages = prevImages.filter((_, i) => i !== index);
+      console.log("Updated images after deletion:", updatedImages);
+      return updatedImages;
+    });
+    // setCloseModal(false);
   };
 
   return (
@@ -231,31 +239,32 @@ export const Modal = ({
                   />
                 </div>
 
-                <div className="mt-5">
+                {/* <div className="mt-5">
                   {product.length > 0 ? (
-                    // Find the product with the matching `updateData.id`
+                    // Find the product with the matching updateData.id
                     (() => {
                       const selectedProduct = product.find(
                         (item) => item.id === updateData.id
                       );
+                      // If selectedProduct is null or stale, fallback to images state
+                      const imagesToDisplay =
+                        selectedProduct?.ImageUrl || images || tempImages || [];
                       return selectedProduct ? (
                         <div
                           key={selectedProduct.id}
                           className="flex gap-2 mx-2 flex-wrap"
                         >
-                          {selectedProduct.ImageUrl.map((image, i) => (
+                          {imagesToDisplay.map((image, i) => (
                             <div key={i} className="relative w-32 h-32">
-                              {/* Delete Button */}
                               <button
                                 onClick={() => handleDeleteImage(i)}
                                 className="absolute top-1 right-1 bg-red-600 text-white p-[-10px] w-6 h-6 rounded-full z-10 hover:bg-red-700"
                               >
                                 &times;
                               </button>
-                              {/* Image */}
                               <img
-                                src={`data:image/jpeg;base64,${image}`}
-                                alt={`Image Produk ${i + 1}`}
+                                src={data:image/jpeg;base64,${image}}
+                                alt={Image Produk ${i + 1}}
                                 className="object-cover rounded-sm w-full h-full border-2"
                               />
                             </div>
@@ -267,6 +276,33 @@ export const Modal = ({
                     })()
                   ) : (
                     <p>Loading...</p>
+                  )}
+                </div> */}
+
+                <div className="mt-5">
+                  {images && images.length > 0 ? (
+                    <div className="flex gap-2 mx-2 flex-wrap">
+                      {images.map((image, i) => (
+                        <div key={i} className="relative w-32 h-32">
+                          {/* Delete Button */}
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteImage(i)}
+                            className="absolute top-1 right-1 bg-red-600 text-white p-[-10px] w-6 h-6 rounded-full z-10 hover:bg-red-700"
+                          >
+                            &times;
+                          </button>
+                          {/* Image */}
+                          <img
+                            src={`data:image/jpeg;base64,${image}`}
+                            alt={`Image Produk ${i + 1}`}
+                            className="object-cover rounded-sm w-full h-full border-2"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p>No Images</p>
                   )}
                 </div>
 

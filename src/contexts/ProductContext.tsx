@@ -22,7 +22,13 @@ interface Product {
 
 interface ProductContextType {
   product: Product[];
-  fetchProduct: () => void;
+  fetchProduct: (
+    query?: string,
+    published?: string,
+    author?: string,
+    page?: string,
+    backToPage1?: boolean
+  ) => void;
   fetchFilteredProduct: (
     query: string,
     published?: string,
@@ -41,23 +47,61 @@ const ProductContext = createContext<ProductContextType | undefined>(undefined);
 export const ProductProvider = ({ children }: ProductProviderType) => {
   const [product, setProduct] = useState<Product[]>([]);
   const [totalPages, setTotalPages] = useState(1);
-  const params = new URLSearchParams();
+  // const params = new URLSearchParams();
   const pathname = usePathname();
+  // const searchParams = useSearchParams();
+  // const currentPage = Number(searchParams.get("page")) || 1;
+
   const { replace } = useRouter();
 
-  const fetchProduct = useCallback(async () => {
-    try {
-      const res = await axios.get("/api/product");
-      const { products, totalCount } = res.data;
+  // kita st default nya false supaya ga balik ke page 1. baliknya kalau di kasi nilai true aja kek di creeateProduct
+  const fetchProduct = useCallback(
+    async (
+      query?: string,
+      // published?: string,
+      published: string = "true", // Default to true
+      author?: string,
+      page?: string,
+      backToPage1: boolean = false
+    ) => {
+      try {
+        const params = new URLSearchParams();
 
-      setProduct(products);
-      setTotalPages(Math.ceil(totalCount / 4)); // Update `totalPages`
-      params.set("page", "1");
-      replace(`${pathname}?${params.toString()}`);
-    } catch (error) {
-      console.log("error fetch dari usecontext", error);
-    }
-  }, []);
+        console.log("backToPage1", backToPage1);
+        console.log("page", page);
+
+        const currentPage = page;
+
+        //use this karena balik mulu ke page 1 tiap kali mau update, delete. kecuali utk create
+        const pageToFetch = backToPage1 ? 1 : currentPage || 1;
+        console.log("pageToFetch", pageToFetch);
+
+        // const query = params.get("query") || "";
+        // const published = params.get("published") || "";
+        // const author = params.get("author") || "";
+
+        // // Build the API URL with query parameters
+        const apiUrl = `/api/product?page=${pageToFetch}&query=${query}&published=${published}&author=${author}`;
+
+        console.log("API URL:", apiUrl);
+
+        // // Make the API call
+        const res = await axios.get(apiUrl);
+
+        // const res = await axios.get(`/api/product?page=${pageToFetch}`);
+        const { products, totalCount } = res.data;
+
+        setProduct(products);
+        setTotalPages(Math.ceil(totalCount / 4)); // Update `totalPages`
+        // Update URL params and currentPage state
+        params.set("page", pageToFetch.toString());
+        replace(`${pathname}?${params.toString()}`);
+      } catch (error) {
+        console.log("error fetch dari usecontext", error);
+      }
+    },
+    []
+  );
 
   // const fetchFilteredProduct = useCallback(async (query: string) => {
   //   try {

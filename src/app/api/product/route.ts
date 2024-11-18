@@ -57,7 +57,7 @@ export async function GET(request: Request) {
   const query = searchParams.get("query");
   const publishedParams = searchParams.get("published");
   const published =
-    publishedParams === "true"
+    publishedParams === "true" || publishedParams === null
       ? true
       : publishedParams === "false"
       ? false
@@ -84,7 +84,6 @@ export async function GET(request: Request) {
     // published: published || undefined,
     // ...(published !== undefined && { published }),
     published: published,
-
     authorId: authorId || undefined,
   };
 

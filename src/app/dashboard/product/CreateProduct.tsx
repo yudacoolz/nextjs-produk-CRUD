@@ -2,6 +2,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useProductContext } from "@/contexts/ProductContext";
+import { useSearchParams } from "next/navigation";
 
 export const CreateProduct = () => {
   const { product, fetchProduct } = useProductContext();
@@ -12,6 +13,12 @@ export const CreateProduct = () => {
   const [authorId, setAuthorId] = useState<number | "">("");
   const [images, setImages] = useState<File[] | null>(null);
   console.log("authorId udh masuk ? : ", authorId);
+
+  const searchParams = useSearchParams();
+  const query = searchParams.get("query") || "";
+  const publish = searchParams.get("published") || "";
+  const author = searchParams.get("author") || "";
+  const page = searchParams.get("page") || "1";
 
   const handleImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -69,7 +76,7 @@ export const CreateProduct = () => {
             setAuthorId("");
             setImages(null);
 
-            await fetchProduct();
+            await fetchProduct(query, publish, author, page, true);
           }
         } else {
         }

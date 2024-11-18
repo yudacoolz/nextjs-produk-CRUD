@@ -158,7 +158,7 @@ const FetchProductComponent = () => {
             onClose={() => setIsModalOpen(false)}
             updateData={updatedata}
             deleteData={deleteData}
-            onAction={() => fetchProduct()}
+            onAction={() => fetchProduct(query, published, author, page, false)}
           />
           <ModalImages
             Judul="Images Product"
