@@ -31,7 +31,7 @@ export const Modal = ({
   onAction,
   children,
 }: ModalProps) => {
-  const { product } = useProductContext();
+  // const { product } = useProductContext();
 
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
