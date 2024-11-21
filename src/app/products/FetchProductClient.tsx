@@ -86,7 +86,7 @@ const FetchProductClient = () => {
           ) : product.length > 0 ? (
             product.map((post) => (
               <div
-                className="rounded-lg border-2 my-3 p-4 w-full h-full shadow-lg flex flex-col grow md:max-h-[388px]"
+                className="rounded-lg border-2 my-3 p-4 w-full h-full shadow-lg flex flex-col grow md:max-h-[420px]"
                 key={post.id}
               >
                 <p>Author : {post.author.name}</p>
@@ -120,7 +120,10 @@ const FetchProductClient = () => {
                   <h2 className="text-2xl font-semibold text-slate-500 capitalize">
                     {post.title}
                   </h2>
-                  <p className="line-clamp-3 text-sm"> {post.content}</p>
+                  <p className="line-clamp-3 text-sm mb-5 mt-2">
+                    {" "}
+                    {post.content}
+                  </p>
                 </Link>
 
                 <div className="text-right w-full mt-auto mb-4">
