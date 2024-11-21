@@ -98,7 +98,7 @@ const ProductDetail = ({ params }: ProductDetailProps) => {
               <img
                 src={`data:image/jpeg;base64,${product.ImageUrl[0]}`}
                 alt="Product Image 1"
-                className="object-cover rounded-xl md:w-3/4 h-full border-2"
+                className="object-cover rounded-xl md:w-3/4 w-full h-full border-2"
               />
               <div className="flex gap-2 self-start md:self-end">
                 {product.ImageUrl.slice(0, 2).map((image, i) => (
