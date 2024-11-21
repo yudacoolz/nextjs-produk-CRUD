@@ -120,7 +120,7 @@ const FetchProductClient = () => {
                   <h2 className="text-2xl font-semibold text-slate-500 capitalize">
                     {post.title}
                   </h2>
-                  <p> {post.content}</p>
+                  <p className="line-clamp-3 text-sm"> {post.content}</p>
                 </Link>
 
                 <div className="text-right w-full mt-auto mb-4">
