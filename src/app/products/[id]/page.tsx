@@ -58,7 +58,7 @@ const ProductDetail = ({ params }: ProductDetailProps) => {
       />
       {product ? (
         <div className="md:px-32 px-4 flex gap-5 md:flex-row flex-col justify-between">
-          <div>
+          <div className="md:w-1/2">
             <h2 className="text-5xl font-bold capitalize">{product.title}</h2>
             <p className="text-lg mt-4 text-slate-600 font-semibold">
               Author name: {product.author.name}
@@ -87,7 +87,7 @@ const ProductDetail = ({ params }: ProductDetailProps) => {
             ))}
           </div> */}
 
-          <div className="flex flex-col gap-2 my-5">
+          <div className="flex flex-col gap-2 my-5 md:w-1/2">
             <p className="font-semibold md:text-right">
               Total Images: {product.ImageUrl.length}
             </p>
