@@ -1,101 +1,89 @@
+"use client";
 import Image from "next/image";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
+import "@/app/globals.css";
 
 export default function Home() {
+  const images = ["/Images/images.jpeg", "/Images/cosmeticLS.jpg"]; // Add your images here
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
+    <>
+      {/* CAROUSEL */}
+      <div className="relative flex gap-2 mb-2 cursor-pointer overflow-hidden">
+        <Swiper
+          modules={[Navigation, Pagination]}
+          navigation
+          pagination={{ clickable: true }}
+          spaceBetween={10}
+          slidesPerView={1}
+          className="w-full md:h-72 rounded-lg" //responsive
+        >
+          {images.map((image, index) => (
+            <SwiperSlide key={index}>
+              <img
+                src={`${image}`}
+                alt={`Slide ${index + 1}`}
+                className="object-cover rounded-lg border-2 w-full md:min-h-72 h-72"
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+      {/* END CAROUSEL*/}
+
+      <div className="mt-10 px-4 md:px-16">
+        <div className="flex flex-col md:flex-row gap-4 mb-32">
+          <div className="md:w-1/2 w-full">
+            <Image
+              className="w-full rounded-lg"
+              src="/Images/model.jpg"
+              alt="Next.js logo"
+              width={180}
+              height={38}
+              priority
+            />
+          </div>
+          <div className="md:w-1/2 flex flex-col items-center justify-center md:items-start gap-2 px-4">
+            <p className="text-center md:text-justify text-lg">
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Porro
+              officia minima, ad libero at harum dolor quibusdam quod magni
+              aliquid quas similique, delectus eveniet aliquam dolorum autem,
+              repellendus et eum?
+              <br />
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Perspiciatis neque accusamus dicta corrupti, aliquam blanditiis
+              dolorum ex necessitatibus aliquid maxime facilis dolores tenetur
+              quidem vel. Quod libero voluptatum eius sequi.
+            </p>
+            <button className=" text-center md:text-justify bg-blue-600 text-white p-3 rounded-xl">
+              Read More
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="relative my-10 w-full">
         <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
+          className="w-full rounded-lg md:rounded-none h-56 object-cover" /* Added shadow */
+          src="/Images/d_main.jpg"
           alt="Next.js logo"
           width={180}
           height={38}
           priority
         />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+        <div className="absolute inset-0 bg-black opacity-80 rounded-lg md:rounded-none"></div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-3/4 text-white bg-black bg-opacity-70 flex flex-col md:flex-row md:justify-between items-center justify-center gap-4 p-4 rounded-lg">
+          <p className="text-center">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat,
+            nam praesentium.
+          </p>
+          <button className="text-center bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl transition-all">
+            Read More
+          </button>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </div>
+    </>
   );
 }

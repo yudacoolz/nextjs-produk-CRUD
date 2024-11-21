@@ -1,21 +1,21 @@
 "use client";
 
-import { useDarkTheme } from "@/contexts/DarkThemeContext";
+// import { useDarkTheme } from "@/contexts/DarkThemeContext";
 
 export default function LayoutAbout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { isDark, setIsDark } = useDarkTheme(); // Using isDark and setIsDark consistently
+  // const { isDark, setIsDark } = useDarkTheme(); // Using isDark and setIsDark consistently
 
-  const handleDarkButton = () => {
-    setIsDark(!isDark);
-  };
+  // const handleDarkButton = () => {
+  //   setIsDark(!isDark);
+  // };
 
   return (
     <>
-      <div
+      {/* <div
         className={`w-full text-white p-2 flex justify-between ${
           isDark ? "bg-slate-700" : "bg-green-700"
         }`}
@@ -27,11 +27,11 @@ export default function LayoutAbout({
         >
           {isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
         </button>
-      </div>
+      </div> */}
       {children}
-      <div className={`w-full p-2 ${isDark ? "bg-slate-700" : "bg-green-700"}`}>
+      {/* <div className={`w-full p-2 ${isDark ? "bg-slate-700" : "bg-green-700"}`}>
         About Footer Layout
-      </div>
+      </div> */}
     </>
   );
 }

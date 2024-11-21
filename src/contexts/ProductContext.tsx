@@ -27,7 +27,8 @@ interface ProductContextType {
     published?: string,
     author?: string,
     page?: string,
-    backToPage1?: boolean
+    backToPage1?: boolean,
+    skipURLUpdate?: boolean
   ) => void;
   fetchFilteredProduct: (
     query: string,
@@ -62,7 +63,8 @@ export const ProductProvider = ({ children }: ProductProviderType) => {
       published: string = "true", // Default to true
       author?: string,
       page?: string,
-      backToPage1: boolean = false
+      backToPage1: boolean = false,
+      skipURLUpdate: boolean = false
     ) => {
       try {
         const params = new URLSearchParams();
@@ -93,9 +95,12 @@ export const ProductProvider = ({ children }: ProductProviderType) => {
 
         setProduct(products);
         setTotalPages(Math.ceil(totalCount / 4)); // Update `totalPages`
+
         // Update URL params and currentPage state
-        params.set("page", pageToFetch.toString());
-        replace(`${pathname}?${params.toString()}`);
+        if (!skipURLUpdate) {
+          params.set("page", pageToFetch.toString());
+          replace(`${pathname}?${params.toString()}`);
+        }
       } catch (error) {
         console.log("error fetch dari usecontext", error);
       }

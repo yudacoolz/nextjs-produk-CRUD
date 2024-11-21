@@ -47,7 +47,7 @@ export const ModalImages = ({
       />
 
       {/* Modal Content */}
-      <div className="relative bg-white rounded-lg w-3/4  mx-4 z-50 max-h-full">
+      <div className="relative bg-white rounded-lg md:w-3/4  mx-4 z-50 max-h-full">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b">
           <h2 className="text-xl font-semibold">{Judul}</h2>
@@ -78,18 +78,21 @@ export const ModalImages = ({
                   <img
                     src={`data:image/jpeg;base64,${selectedImage}`}
                     alt={`Image Produk`}
-                    className=" rounded-sm w-auto h-96 border-2 cursor-pointer"
+                    className=" rounded-sm w-auto md:h-96 border-2 cursor-pointer"
                   />
                 </div>
               )}
               {product.length > 0 && selectedProduct && (
-                <div key={selectedProduct.id} className="flex gap-3">
+                <div
+                  key={selectedProduct.id}
+                  className="flex gap-3 overflow-x-auto"
+                >
                   {selectedProduct.ImageUrl.map((item, i) => (
                     <img
                       key={i}
                       src={`data:image/jpeg;base64,${item}`}
                       alt={`Image Produk ${i + 1}`}
-                      className="object-cover rounded-sm w-32 h-32 border-2 cursor-pointer"
+                      className="object-cover rounded-sm md:w-32 md:h-32 w-20 h-20 border-2 cursor-pointer"
                       onClick={() => handlezoom(item)}
                     />
                   ))}

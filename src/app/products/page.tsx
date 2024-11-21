@@ -4,7 +4,7 @@ import { Suspense } from "react";
 
 const ProductPage = () => {
   return (
-    <div>
+    <div className="px-4 ">
       <Suspense fallback={<p>Loading...</p>}>
         <h1 className="font-bold text-3xl text-center my-4">
           Product for Client

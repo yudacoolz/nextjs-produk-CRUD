@@ -3,8 +3,11 @@
 import { useProductContext } from "@/contexts/ProductContext";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
-export default function Pagination(props: {
+export default function PaginationComponent(props: {
   query: string;
   published: string;
   author: string;
@@ -40,13 +43,13 @@ export default function Pagination(props: {
   };
 
   return (
-    <div className="flex items-center gap-2 mt-8">
+    <div className="flex items-center justify-center gap-2 md:mt-8 mt-16">
       <button
-        className="p-2 bg-black text-white rounded"
+        className="py-2 px-4 bg-black text-white rounded font-bold"
         onClick={() => handlePageChange((currentPage - 1).toString())}
         disabled={currentPage <= 1}
       >
-        prev
+        <FontAwesomeIcon icon={faChevronLeft} size="1x" />
       </button>
 
       {/* Map over pages and create links */}
@@ -57,8 +60,8 @@ export default function Pagination(props: {
             key={page}
             href={createPageURL(page)}
             onClick={() => handlePageChange(page.toString())}
-            className={`border p-3 ${
-              page === currentPage ? "bg-blue-500 text-white" : ""
+            className={`border py-2 px-4 rounded ${
+              page === currentPage ? "bg-slate-700 text-white" : ""
             }`}
           >
             {page}
@@ -66,12 +69,12 @@ export default function Pagination(props: {
         );
       })}
       <button
-        className="p-2 bg-black text-white rounded"
+        className="py-2 px-4 bg-black text-white rounded"
         // onClick={() => handlePageChange((currentPage + 1).toString())}
         onClick={() => nextpage()}
         disabled={currentPage >= totalPages}
       >
-        next
+        <FontAwesomeIcon icon={faChevronRight} size="1x" />
       </button>
     </div>
   );

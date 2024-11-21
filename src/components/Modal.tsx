@@ -308,7 +308,7 @@ export const Modal = ({
 
                 <button
                   type="submit"
-                  className="p-2 bg-green-700 text-white rounded-lg w-fit"
+                  className="p-2 bg-green-700 text-white rounded-lg w-fit mt-5"
                 >
                   Update Product
                 </button>
@@ -322,7 +322,7 @@ export const Modal = ({
                 </h3>
                 <button
                   type="submit"
-                  className="p-2 bg-green-700 text-white rounded-lg w-fit"
+                  className="p-2 bg-red-700 text-white rounded-lg w-fit mt-5 "
                 >
                   {" "}
                   Delete

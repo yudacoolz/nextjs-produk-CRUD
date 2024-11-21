@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 import { useProductContext } from "@/contexts/ProductContext";
 import SearchFilter from "@/components/SearchFilter";
 import { useSearchParams } from "next/navigation";
-import Pagination from "@/components/Pagination";
+import PaginationComponent from "@/components/Pagination";
 import { Suspense } from "react";
 
 interface Author {
@@ -87,9 +87,114 @@ const FetchProductComponent = () => {
       <div className="mb-5">
         <SearchFilter placeholder={"Search Produk"} isDashboard />
 
-        <div className="grid grid-cols-4 gap-2">
+        <div className="overflow-x-auto">
+          <table className="table-auto w-full mt-6 text-center">
+            <thead>
+              <tr className="capitalize border bg-slate-700 text-white">
+                <th className="border-2 border-white p-2">id</th>
+                <th className="border-2 border-white p-2">title</th>
+                <th className="border-2 border-white p-2">description</th>
+                <th className="border-2 border-white p-2">created</th>
+                <th className="border-2 border-white p-2">updated</th>
+                <th className="border-2 border-white p-2">authorID</th>
+                <th className="border-2 border-white p-2">author name</th>
+                <th className="border-2 border-white p-2">published</th>
+                <th className="border-2 border-white p-2  min-w-[300px] overflow-hidden">
+                  images
+                </th>
+                <th className="border-2 border-white p-2">action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {loading ? (
+                <p>Loading...</p> // Show loading message while fetching data
+              ) : product.length > 0 ? (
+                product.map((post) => (
+                  <tr
+                    key={post.id}
+                    className="rounded-lg border my-3 p-3 w-full bg-slate-50 "
+                  >
+                    <td className="border-2 border-slate-700 p-2">{post.id}</td>
+                    <td className="border-2 border-slate-700 p-2">
+                      {post.title}
+                    </td>
+                    <td className="border-2 border-slate-700 p-2">
+                      {post.content}
+                    </td>
+                    <td className="border-2 border-slate-700 p-2">
+                      {new Date(post.createdAt).toLocaleDateString()}
+                    </td>
+                    <td className="border-2 border-slate-700 p-2">
+                      {new Date(post.updatedAt).toLocaleDateString()}
+                    </td>
+                    <td className="border-2 border-slate-700 p-2">
+                      {post.authorId}
+                    </td>
+                    <td className="border-2 border-slate-700 p-2">
+                      {post.author.name}
+                    </td>
+                    <td className="border-2 border-slate-700 p-2">
+                      {post.published ? "TRUE" : "FALSE"}
+                    </td>
+                    <td className="border-2 border-slate-700 p-2 min-w-[300px] overflow-hidden">
+                      {/* images */}
+                      <div className="flex flex-col gap-2 my-5">
+                        <p>Total Images: {post.ImageUrl.length}</p>
+                        <div
+                          className="flex gap-2 mt-5 cursor-pointer"
+                          onClick={() => handleModalImage(post.id)}
+                        >
+                          {post.ImageUrl.slice(0, 2).map((image, i) => (
+                            <img
+                              key={i}
+                              src={`data:image/jpeg;base64,${image}`}
+                              alt={`Image Produk ${i + 1}`}
+                              className="object-cover rounded-sm w-20 h-20 border-2"
+                            />
+                          ))}
+
+                          {post.ImageUrl.length > 2 && (
+                            <div className="flex items-center justify-center rounded-sm w-20 h-20 border-2 bg-gray-200 text-gray-700">
+                              +{post.ImageUrl.length - 2} more
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      {/* end images */}
+                    </td>
+                    <td className="border-2 border-slate-700 p-2">
+                      <div className="flex md:flex-row flex-col gap-2 mt-5">
+                        <button
+                          className="bg-green-700 text-white p-2 rounded-lg"
+                          onClick={() => handleUpdate(post.id)}
+                        >
+                          Update
+                        </button>
+                        <button
+                          className="bg-red-700 text-white p-2 rounded-lg"
+                          onClick={() => handleDelete(post.id)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={10} className="p-4">
+                    No post Found
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        {/* GRID VERSION */}
+        {/* <div className="grid grid-cols-4 gap-2">
           {loading ? (
-            <p>Loading...</p> // Show loading message while fetching data
+            <p>Loading...</p>
           ) : product.length > 0 ? (
             product.map((post) => (
               <div
@@ -101,15 +206,9 @@ const FetchProductComponent = () => {
                 <p>description : {post.content}</p>
                 <p>created : {new Date(post.createdAt).toLocaleDateString()}</p>
                 <p>updated : {new Date(post.updatedAt).toLocaleDateString()}</p>
-                {/* <p>
-              updated :{" "}
-              {post.updatedAt.toLocaleDateString("id-ID", dateOptions)}
-            </p> */}
                 <p>authorID: {post.authorId}</p>
                 <p>author name: {post.author.name}</p>{" "}
-                {/* This should work now */}
                 <p>Publish : {post.published ? "TRUE" : "FALSE"}</p>
-                {/* images */}
                 <div className="flex flex-col gap-2 mt-5">
                   <p>Total Images: {post.ImageUrl.length}</p>
                   <div
@@ -132,7 +231,6 @@ const FetchProductComponent = () => {
                     )}
                   </div>
                 </div>
-                {/* end images */}
                 <div className="flex gap-2 mt-5">
                   <button
                     className="bg-green-700 p-2 rounded-lg"
@@ -152,22 +250,25 @@ const FetchProductComponent = () => {
           ) : (
             <p>No post Found</p>
           )}
-          <Modal
-            Judul="Update Product"
-            isOpen={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
-            updateData={updatedata}
-            deleteData={deleteData}
-            onAction={() => fetchProduct(query, published, author, page, false)}
-          />
-          <ModalImages
-            Judul="Images Product"
-            isOpen={isModalImageOpen}
-            onClose={() => setIsModalImageOpen(false)}
-            updateData={dataImage}
-          />
-        </div>
-        <Pagination
+        </div> */}
+        {/* END GRID VERSION */}
+
+        <Modal
+          Judul="Update Product"
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          updateData={updatedata}
+          deleteData={deleteData}
+          onAction={() => fetchProduct(query, published, author, page, false)}
+        />
+        <ModalImages
+          Judul="Images Product"
+          isOpen={isModalImageOpen}
+          onClose={() => setIsModalImageOpen(false)}
+          updateData={dataImage}
+        />
+
+        <PaginationComponent
           query={query}
           published={published}
           author={author}

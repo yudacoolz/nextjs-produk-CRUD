@@ -1,3 +1,44 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import "swiper/css";
+@import "swiper/css/navigation";
+@import "swiper/css/pagination";
+
+/* Customize navigation arrows */
+.swiper-button-next,
+.swiper-button-prev {
+  color: white; /* Change arrow color */
+  background-color: rgba(0, 0, 0, 0.5); /* Add background */
+  border-radius: 50%; /* Make arrows circular */
+  width: 40px;
+  height: 40px;
+}
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 20px; /* Adjust arrow icon size */
+  font-weight: 600;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background-color: rgba(0, 0, 0, 0.8); /* Change on hover */
+}
+
+/* Customize pagination dots */
+
+.swiper-horizontal > .swiper-pagination-bullets,
+.swiper-pagination-bullets.swiper-pagination-horizontal {
+  background-color: white; /* Default dot color */
+  width: fit-content;
+  border-radius: 25px;
+  padding: 2px 10px;
+  left: 50%;
+  bottom: -5px;
+  transform: translate(-50%, -50%);
+}
+
+.swiper-pagination-bullet-active {
+  background-color: black; /* Active dot color */
+}

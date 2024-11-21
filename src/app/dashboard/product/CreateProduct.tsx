@@ -88,16 +88,16 @@ export const CreateProduct = () => {
   };
 
   return (
-    <div>
-      <h1>Create Product</h1>
-
-      <div className="my-2 p-2">
+    <div className="mt-4">
+      <div className="w-[350px]">
         <form
           onSubmit={handleSubmit}
           className="flex flex-col gap-2 bg-slate-700 rounded-lg p-3 my-2 text-white"
         >
-          <div className="flex gap-2">
-            <label htmlFor="title">Title</label>
+          <div className="flex gap-2 ">
+            <label className="w-1/4 font-semibold" htmlFor="title">
+              Title
+            </label>
             <input
               type="text"
               name="title"
@@ -107,7 +107,9 @@ export const CreateProduct = () => {
             />
           </div>
           <div className="flex gap-2">
-            <label htmlFor="content">Content</label>
+            <label className="w-1/4 font-semibold" htmlFor="content">
+              Content
+            </label>
             <input
               type="text"
               name="content"
@@ -117,7 +119,9 @@ export const CreateProduct = () => {
             />
           </div>
           <div className="flex gap-2">
-            <label htmlFor="published">Published</label>
+            <label className="w-1/4 font-semibold" htmlFor="published">
+              Published
+            </label>
             <input
               type="checkbox"
               name="published"
@@ -138,7 +142,9 @@ export const CreateProduct = () => {
           </div> */}
 
           <div className="flex gap-2">
-            <label htmlFor="authorIdselect">Author ID</label>
+            <label className="w-1/4 font-semibold" htmlFor="authorIdselect">
+              Author ID
+            </label>
             <select
               name="authorIdselect"
               id="authorIdselect"
@@ -166,8 +172,10 @@ export const CreateProduct = () => {
             </select>
           </div>
 
-          <div className="flex gap-2">
-            <label htmlFor="image">Image</label>
+          <div className="flex gap-2 w-full">
+            <label className="w-1/4 font-semibold" htmlFor="image">
+              Image
+            </label>
             <input
               type="file"
               name="image"
@@ -175,7 +183,7 @@ export const CreateProduct = () => {
               // accept=".jpg,.jpeg,.png"
               accept=".jpeg"
               onChange={handleImage}
-              className="text-black"
+              className="text-black ml-8"
             />
           </div>
 
@@ -193,9 +201,9 @@ export const CreateProduct = () => {
 
           <button
             type="submit"
-            className="p-2 bg-green-700 text-white rounded-lg w-fit"
+            className="p-2 px-4 bg-green-700 text-white rounded-lg w-fit mt-5 font-semibold"
           >
-            Create Product
+            Create Item
           </button>
         </form>
       </div>

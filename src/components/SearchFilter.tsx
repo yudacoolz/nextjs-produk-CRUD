@@ -62,19 +62,19 @@ export const SearchFilter = ({
   };
 
   return (
-    <>
+    <div className="mt-8">
       <p>{title}</p>
-      <div className=" flex gap-3">
+      <div className="flex gap-3">
         {isDashboard ? (
           <form
-            className="flex gap-2 items-center"
+            className="flex md:flex-row flex-col gap-2 items-center w-full"
             onSubmit={handleSearchDashboard}
           >
-            <label htmlFor="search" className="text-black">
+            {/* <label htmlFor="search" className="text-black">
               Search
-            </label>
+            </label> */}
             <input
-              className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
+              className=" block w-full rounded-md border border-gray-400 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
               placeholder={placeholder}
               onChange={(e) => {
                 setSearch(e.target.value);
@@ -82,40 +82,44 @@ export const SearchFilter = ({
               defaultValue={searchParams.get("query")?.toString()}
             />
 
-            <select
-              name="published"
-              id="published"
-              value={published ? "true" : "false"} // Bind the value of the select to authorId state
-              onChange={(e) => setPublished(e.target.value === "true")} // Update the state on change
-            >
-              <option value="true">published</option>
-              <option value="false">not published</option>
-            </select>
+            <div className="flex gap-2 w-full ">
+              <select
+                className=" rounded-md border border-gray-600 py-[9px] px-2 text-sm w-full"
+                name="published"
+                id="published"
+                value={published ? "true" : "false"} // Bind the value of the select to authorId state
+                onChange={(e) => setPublished(e.target.value === "true")} // Update the state on change
+              >
+                <option value="true">Published</option>
+                <option value="false">Not Published</option>
+              </select>
 
-            <select
-              name="author"
-              id="author"
-              value={author} // Bind the value of the select to authorId state
-              onChange={(e) => setAuthor(Number(e.target.value))} // Update the state on change
-            >
-              <option value="1">Admin</option>
-              <option value="2">Staff</option>
-            </select>
+              <select
+                className=" rounded-md border border-gray-600 py-[9px] px-2 text-sm w-full"
+                name="author"
+                id="author"
+                value={author} // Bind the value of the select to authorId state
+                onChange={(e) => setAuthor(Number(e.target.value))} // Update the state on change
+              >
+                <option value="1">Admin</option>
+                <option value="2">Staff</option>
+              </select>
+            </div>
 
             <button
               type="submit"
-              className="p-2 bg-black rounded-md text-white"
+              className="py-2 px-4 bg-black rounded-md text-white w-1/2"
             >
               Submit
             </button>
           </form>
         ) : (
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
             <label htmlFor="search" className="text-black">
               Search
             </label>
             <input
-              className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
+              className=" block w-full rounded-md border border-gray-400 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
               placeholder={placeholder}
               onChange={(e) => {
                 handleSearch(e.target.value);
@@ -125,7 +129,7 @@ export const SearchFilter = ({
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

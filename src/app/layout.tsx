@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { AppProviders } from "@/contexts/Providers";
+import "./fontawesome"; // Import the configuration
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -33,7 +34,7 @@ export default function RootLayout({
       >
         <AppProviders>
           <Header />
-          {children}
+          <div className="md:mt-[72px] mt-[64px] pb-2">{children}</div>
           <Footer />
         </AppProviders>
       </body>
