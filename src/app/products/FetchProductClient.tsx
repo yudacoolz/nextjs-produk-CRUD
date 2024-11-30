@@ -49,14 +49,14 @@ const FetchProductClient = () => {
     // Call fetchFilteredProduct if there is a search term; otherwise, call fetchProduct
 
     setLoading(true);
-    const checkResult = () => {
+    const checkResult = async () => {
       if (searchTerm) {
-        fetchFilteredProduct(searchTerm, published, author, page);
+        await fetchFilteredProduct(searchTerm, published, author, page);
       } else {
         if (page) {
-          fetchProduct("", "true", "", page.toString(), false, true);
+          await fetchProduct("", "true", "", page.toString(), false, true);
         } else {
-          fetchProduct("", "true", "", page, false, false);
+          await fetchProduct("", "true", "", page, false, false);
         }
       }
       setLoading(false);
@@ -82,7 +82,7 @@ const FetchProductClient = () => {
 
         <div className="grid md:grid-cols-4 gap-2">
           {loading ? (
-            <p>.... Loading Data</p>
+            <p className="col-span-4 text-center my-5">.... Loading Data</p>
           ) : product.length > 0 ? (
             product.map((post) => (
               <div
