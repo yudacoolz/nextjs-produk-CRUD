@@ -151,7 +151,7 @@ const FetchProductClient = ({
                         <img
                           src={`data:image/jpeg;base64,${image}`}
                           alt={`Slide ${index + 1}`}
-                          className="object-cover rounded-lg border-2 min-w-[323px] md:min-h-56 h-full"
+                          className="object-cover rounded-lg border-2 min-w-[323px] md:min-h-56 h-80"
                         />
                       </SwiperSlide>
                     ))}
