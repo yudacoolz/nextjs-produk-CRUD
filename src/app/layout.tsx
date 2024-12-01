@@ -34,7 +34,8 @@ export default function RootLayout({
       >
         <AppProviders>
           <Header />
-          <div className="md:mt-[72px] mt-[64px] pb-2">{children}</div>
+          {/* <div className="md:mt-[72px] mt-[64px] pb-2">{children}</div> */}
+          <div className=" pb-2">{children}</div>
           <Footer />
         </AppProviders>
       </body>
