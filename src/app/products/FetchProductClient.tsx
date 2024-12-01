@@ -4,7 +4,7 @@ import React from "react";
 // import FetchProductComponent from "./FetchProductComponent";
 // import ModalImages from "@/components/ModalImages";
 import { useState, useEffect, Suspense } from "react";
-import { useProductContext } from "@/contexts/ProductContext";
+// import { useProductContext } from "@/contexts/ProductContext";
 import SearchFilter from "@/components/SearchFilter";
 import PaginationComponent from "@/components/Pagination";
 import { useSearchParams } from "next/navigation";
@@ -13,58 +13,75 @@ import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import "@/app/globals.css";
+// import { Product } from "@/types/product";
 
-// interface Author {
-//   name: string;
-// }
+interface Author {
+  name: string;
+}
 
-// interface Post {
-//   id: number;
-//   title: string;
-//   content: string | null;
-//   createdAt: Date;
-//   updatedAt: Date;
-//   authorId: number;
-//   published: boolean;
-//   author: Author;
-//   ImageUrl: string[];
-// }
+interface Post {
+  id: number;
+  title: string;
+  content: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  authorId: number;
+  published: boolean;
+  author: Author;
+  ImageUrl: string[];
+}
 
-const FetchProductClient = () => {
-  const { product, fetchFilteredProduct, fetchProduct, totalPages } =
-    useProductContext();
+interface fetchClientProps {
+  data: Post[];
+  totalpages: number;
+  searchTerm: string;
+  published: string;
+  author: string;
+  // page: string;
+}
+
+const FetchProductClient = ({
+  data,
+  totalpages,
+  searchTerm,
+  published,
+  author,
+}: fetchClientProps) => {
+  // const { product, fetchFilteredProduct, fetchProduct, totalPages } =
+  //   useProductContext();
+  console.log("data dr client", data);
+  console.log("data dr client", totalpages);
 
   // const [isModalImageOpen, setIsModalImageOpen] = useState(false);
 
   // const [dataImage, setDataImage] = useState<Post | null>(null);
-  const [loading, setLoading] = useState(true); // loading state
 
-  const searchParams = useSearchParams();
-  const searchTerm = searchParams.get("query") || "";
-  const published = searchParams.get("published") || "";
-  const author = searchParams.get("author") || "";
-  const page = searchParams.get("page") || "";
+  // const searchParams = useSearchParams();
+  // const searchTerm = searchParams.get("query") || "";
+  // const published = searchParams.get("published") || "";
+  // const author = searchParams.get("author") || "";
+  // const page = searchParams.get("page") || "";
 
-  useEffect(() => {
-    // Call fetchFilteredProduct if there is a search term; otherwise, call fetchProduct
+  // useEffect(() => {
+  //   // Call fetchFilteredProduct if there is a search term; otherwise, call fetchProduct
 
-    setLoading(true);
-    const checkResult = async () => {
-      if (searchTerm) {
-        await fetchFilteredProduct(searchTerm, published, author, page);
-      } else {
-        if (page) {
-          await fetchProduct("", "true", "", page.toString(), false, true);
-        } else {
-          await fetchProduct("", "true", "", page, false, false);
-        }
-      }
-      setLoading(false);
-    };
-    checkResult();
-  }, [searchTerm]);
+  //   setLoading(true);
+  //   const checkResult = async () => {
+  //     if (searchTerm) {
+  //       await fetchFilteredProduct(searchTerm, published, author, page);
+  //     } else {
+  //       if (page) {
+  //         await fetchProduct("", "true", "", page.toString(), false, true);
+  //       } else {
+  //         await fetchProduct("", "true", "", page, false, false);
+  //       }
+  //     }
+  //     setLoading(false);
+  //   };
+  //   checkResult();
+  // }, [searchTerm]);
 
-  console.log("data post:", product);
+  // console.log("data post:", product);
 
   // const handleModalImage = (id: number) => {
   //   setIsModalImageOpen(true);
@@ -74,16 +91,41 @@ const FetchProductClient = () => {
 
   // const [currentIndex, setCurrentIndex] = useState(0);
   // const [currentPost, setCurrentPost] = useState<number | null>(null);
+  const [Loading, setLoading] = useState(true); // loading state
+
+  const [product, setProduct] = useState<Post[]>([]); // loading state
+  const [totalPages, setTotalPages] = useState(1); // loading state
+
+  const searchParams = useSearchParams();
+  const searchQuery = searchParams.get("query") || "";
+
+  const page = searchParams.get("page") || "";
+  console.log("searchParams", searchQuery + page);
+
+  useEffect(() => {
+    console.log("ada perubahan params");
+
+    setLoading(true);
+    const checkResult = async () => {
+      // Call fetchFilteredProduct with all parameters
+      setProduct(data);
+      setTotalPages(Math.ceil(totalpages / 4));
+      setLoading(false);
+    };
+    checkResult();
+  }, [searchQuery, page]);
+  console.log("product", product);
+
+  if (Loading) {
+    return <p>Loading products...</p>; // Display loading state
+  }
 
   return (
     <Suspense fallback={<p>Loading product data...</p>}>
       <div className="mb-5">
         <SearchFilter placeholder={"Search Produk"} />
-
         <div className="grid md:grid-cols-4 gap-2">
-          {loading ? (
-            <p className="col-span-4 text-center my-5">.... Loading Data</p>
-          ) : product.length > 0 ? (
+          {product && product.length > 0 ? (
             product.map((post) => (
               <div
                 className="rounded-lg border-2 my-3 p-4 w-full h-full shadow-lg flex flex-col grow md:max-h-[420px]"

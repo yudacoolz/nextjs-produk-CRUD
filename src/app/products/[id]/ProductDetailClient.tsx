@@ -28,7 +28,7 @@ const ProductDetailClient = ({ product }: ProductDetailClientProps) => {
   const [isModalImageOpen, setIsModalImageOpen] = useState(false);
   const [dataImage, setDataImage] = useState<Product | null>(null);
 
-  const handleModalImage = (image: string) => {
+  const handleModalImage = () => {
     setIsModalImageOpen(true);
     setDataImage(product || null);
   };
@@ -54,7 +54,7 @@ const ProductDetailClient = ({ product }: ProductDetailClientProps) => {
         </p>
         <div
           className="flex flex-col items-end gap-2 mt-2 cursor-pointer"
-          onClick={() => handleModalImage(product.ImageUrl[0])}
+          onClick={() => handleModalImage()}
         >
           {/* {product.ImageUrl.slice(0, 3).map((image, i) => (
             <img
@@ -77,7 +77,7 @@ const ProductDetailClient = ({ product }: ProductDetailClientProps) => {
                 src={`data:image/jpeg;base64,${image}`}
                 alt={`Image Produk ${i + 1}`}
                 className="object-cover rounded-xl w-20 h-20 border-2"
-                onClick={() => handleModalImage(image)}
+                onClick={() => handleModalImage()}
               />
             ))}
 
