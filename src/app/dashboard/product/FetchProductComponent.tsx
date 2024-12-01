@@ -93,7 +93,9 @@ const FetchProductComponent = () => {
               <tr className="capitalize border bg-slate-700 text-white">
                 <th className="border-2 border-white p-2">id</th>
                 <th className="border-2 border-white p-2">title</th>
-                <th className="border-2 border-white p-2">description</th>
+                <th className="border-2 border-white p-2 min-w-[300px] overflow-hidden">
+                  description
+                </th>
                 <th className="border-2 border-white p-2">created</th>
                 <th className="border-2 border-white p-2">updated</th>
                 <th className="border-2 border-white p-2">authorID</th>
@@ -118,7 +120,7 @@ const FetchProductComponent = () => {
                     <td className="border-2 border-slate-700 p-2">
                       {post.title}
                     </td>
-                    <td className="border-2 border-slate-700 p-2">
+                    <td className="border-2 border-slate-700 p-2 min-w-[300px] overflow-hidden text-left">
                       {post.content}
                     </td>
                     <td className="border-2 border-slate-700 p-2">
