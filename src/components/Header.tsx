@@ -193,14 +193,14 @@ const Header = () => {
             (isToken ? (
               <button
                 onClick={handleLogout}
-                className="bg-white hover:bg-black text-2xl font-semibold text-black hover:text-white px-4 py-4 transition-all rounded-lg mt-auto mb-20"
+                className="bg-white hover:bg-black text-2xl font-semibold text-black hover:text-white px-4 py-4 transition-all rounded-lg  mb-20"
               >
                 Logout
               </button>
             ) : (
               <button
                 onClick={handLogin}
-                className="bg-white hover:bg-black text-2xl font-semibold text-black hover:text-white px-4 py-4 transition-all rounded-lg mt-auto"
+                className="bg-white hover:bg-black text-2xl font-semibold text-black hover:text-white px-4 py-4 transition-all rounded-lg "
               >
                 Login
               </button>
